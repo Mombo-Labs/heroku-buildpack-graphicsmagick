@@ -17,7 +17,7 @@ EOS
   end
 
   config.vm.define "cedar-14", primary: true do |config|
-    config.vm.box = "puppetlabs/ubuntu-14.04-64-nocm"
+    config.vm.box = "ubuntu/trusty64"
     config.ssh.forward_agent = true
 
     config.vm.provider :vmware_fusion do |v|

@@ -28,6 +28,12 @@ if [ "$STACK" == "" ]; then
   exit 1
 fi
 
+if [ "$BUCKET_PATH" == "" ]; then
+  STACK_PATH=$STACK
+else
+  STACK_PATH="${BUCKET_PATH}/${STACK}"
+fi
+
 basedir="$( cd -P "$( dirname "$0" )" && pwd )"
 
 # make a temp directory
@@ -48,7 +54,7 @@ cd $tempdir/zlib-${ZLIB_VERSION}
 echo ">>> Uploading zlib"
 
 cd /app/vendor/zlib && tar -czvf $zlib_local_path .
-$basedir/aws/s3 put $S3_BUCKET $STACK/$ZLIB_REMOTE_PATH $zlib_local_path
+$basedir/aws/s3 put $S3_BUCKET $STACK_PATH/$ZLIB_REMOTE_PATH $zlib_local_path
 
 echo ">>> Building libpng"
 
@@ -60,11 +66,11 @@ cd $tempdir/libpng-${LIBPNG_VERSION}
 ./configure --prefix /app/vendor/libpng && make install
 
 echo ">>> Uploading libpng artifact"
-echo "    to ${S3_BUCKET}/${LIBPNG_REMOTE_PATH}"
+echo "    to ${S3_BUCKET}/${STACK_PATH}/${LIBPNG_REMOTE_PATH}"
 echo "    from ${libpng_local_path}"
 
 cd /app/vendor/libpng && tar -czvf $libpng_local_path .
-$basedir/aws/s3 put $S3_BUCKET $STACK/$LIBPNG_REMOTE_PATH $libpng_local_path
+$basedir/aws/s3 put $S3_BUCKET $STACK_PATH/$LIBPNG_REMOTE_PATH $libpng_local_path
 
 echo ">>> Building nasm"
 
@@ -76,11 +82,11 @@ cd $tempdir/nasm-${NASM_VERSION}
 ./configure --prefix /app/vendor/nasm && make install
 
 echo ">>> Uploading nasm artifact"
-echo "    to ${S3_BUCKET}/${NASM_REMOTE_PATH}"
+echo "    to ${S3_BUCKET}/${STACK_PATH}/${NASM_REMOTE_PATH}"
 echo "    from ${nasm_local_path}"
 
 cd /app/vendor/nasm && tar -czvf $nasm_local_path .
-$basedir/aws/s3 put $S3_BUCKET $STACK/$NASM_REMOTE_PATH $nasm_local_path
+$basedir/aws/s3 put $S3_BUCKET $STACK_PATH/$NASM_REMOTE_PATH $nasm_local_path
 
 echo ">>> Building libjpeg-turbo"
 
@@ -91,11 +97,11 @@ cd $tempdir/libjpeg-turbo-${LIBJPEG_TURBO_VERSION}
 PATH=$PATH:/app/vendor/nasm/bin bash -c './configure --prefix /app/vendor/libjpeg_turbo && make install'
 
 echo ">>> Uploading libjpeg-turbo artifact"
-echo "    to ${S3_BUCKET}/${LIBJPEG_TURBO_REMOTE_PATH}"
+echo "    to ${S3_BUCKET}/${STACK_PATH}/${LIBJPEG_TURBO_REMOTE_PATH}"
 echo "    from ${libjpeg_turbo_local_path}"
 
 cd /app/vendor/libjpeg_turbo && tar -czvf $libjpeg_turbo_local_path .
-$basedir/aws/s3 put $S3_BUCKET $STACK/$LIBJPEG_TURBO_REMOTE_PATH $libjpeg_turbo_local_path
+$basedir/aws/s3 put $S3_BUCKET $STACK_PATH/$LIBJPEG_TURBO_REMOTE_PATH $libjpeg_turbo_local_path
 
 echo ">>> Downloading graphicsmagick"
 
@@ -113,8 +119,8 @@ cd $tempdir/GraphicsMagick-${GRAPHICS_MAGICK_VERSION}
 ./configure --prefix /app/vendor/graphicsmagick && make install
 
 echo ">>> Uploading graphics magick artifact"
-echo "    to ${S3_BUCKET}/${REMOTE_PATH}"
+echo "    to ${S3_BUCKET}/${STACK_PATH}/${REMOTE_PATH}"
 echo "    from ${gm_local_path}"
 
 cd /app/vendor/graphicsmagick && tar -czvf $gm_local_path .
-$basedir/aws/s3 put $S3_BUCKET $STACK/$REMOTE_PATH $gm_local_path
+$basedir/aws/s3 put $S3_BUCKET $STACK_PATH/$REMOTE_PATH $gm_local_path

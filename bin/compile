@@ -14,6 +14,13 @@ if [ "$STACK" == "" ]; then
   exit 1
 fi
 
+if [ "$BUCKET_PATH" == "" ]; then
+  STACK_PATH=$STACK
+else
+  STACK_PATH="${BUCKET_PATH}/${STACK}"
+fi
+
+
 indent() {
   sed -u 's/^/       /'
 }
@@ -35,7 +42,7 @@ function package_download() {
   location="$2"
 
   mkdir -p $location
-  package="http://s3.amazonaws.com/${S3_BUCKET}/${STACK}/${remote}"
+  package="http://s3.amazonaws.com/${S3_BUCKET}/${STACK_PATH}/${remote}"
   curl $package -s -o - | tar xzf - -C $location
 }
 
