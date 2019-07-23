@@ -4,6 +4,8 @@ set -e
 
 source `dirname $0`/../configs.sh
 
+echo "Current stack: $STACK"
+
 # parse and derive params
 BUILD_DIR=$1
 CACHE_DIR=$2
@@ -43,6 +45,9 @@ function package_download() {
 
   mkdir -p $location
   package="http://s3.amazonaws.com/${S3_BUCKET}/${STACK_PATH}/${remote}"
+
+  echo "Downloading package $package to $location" | arrow
+
   curl $package -s -o - | tar xzf - -C $location
 }
 
