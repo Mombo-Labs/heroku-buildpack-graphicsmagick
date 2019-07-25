@@ -28,8 +28,8 @@ GM_SOURCE_DIR=$CACHE_DIR/graphicsmagick-$GRAPHICS_MAGICK_VERSION
 GM_CACHE_DIR=$CACHE_DIR/graphicsmagick
 mkdir -p $GM_CACHE_DIR
 
-if [ "$GM_FORCE_REBUILD" = 'true' ] || [ -z "$(ls -L $GM_CACHE_DIR)" ] && [ -z "$(ls -L $GM_VENDOR_DIR)" ]
-then
+# if [ "$GM_FORCE_REBUILD" = 'true' ] || [ -z "$(ls -L $GM_CACHE_DIR)" ] && [ -z "$(ls -L $GM_VENDOR_DIR)" ]
+# then
   echo "Building runtime environment for graphicsmagick" | arrow
   rm -rf $GM_CACHE_DIR
   rm -rf $GM_SOURCE_DIR
@@ -48,7 +48,7 @@ then
   rm -rf $GM_SOURCE_DIR
 
   cd $LP_DIR
-fi
+# fi
 
 echo "Copying and linking graphicsmagick binaries to vendor" | arrow
 
