@@ -26,6 +26,11 @@ mkdir -p $GM_VENDOR_DIR
 # We'll cache the build here
 GM_SOURCE_DIR=$CACHE_DIR/graphicsmagick-$GRAPHICS_MAGICK_VERSION
 GM_CACHE_DIR=$CACHE_DIR/graphicsmagick
+
+echo "GM_SOURCE_DIR: $GM_SOURCE_DIR"
+echo "GM_CACHE_DIR: $GM_CACHE_DIR"
+echo "GM_VENDOR_DIR: $GM_VENDOR_DIR"
+
 mkdir -p $GM_CACHE_DIR
 
 # if [ "$GM_FORCE_REBUILD" = 'true' ] || [ -z "$(ls -L $GM_CACHE_DIR)" ] && [ -z "$(ls -L $GM_VENDOR_DIR)" ]
@@ -52,7 +57,8 @@ mkdir -p $GM_CACHE_DIR
 
 echo "Copying and linking graphicsmagick binaries to vendor" | arrow
 
-rsync -rv --exclude="share/" --exclude="include/" $GM_CACHE_DIR/ $GM_VENDOR_DIR
+#rsync -rv --exclude="share/" --exclude="include/" $GM_CACHE_DIR/ $GM_VENDOR_DIR
+rsync -rv $GM_CACHE_DIR/ $GM_VENDOR_DIR
 
 mkdir -p $BUILD_DIR/bin/
 cp -R $GM_VENDOR_DIR/bin/* $BUILD_DIR/bin/
